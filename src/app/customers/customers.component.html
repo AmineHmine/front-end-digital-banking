@@ -1,0 +1,65 @@
+    <ng-container *ngIf="customers | async as list ; else failureOrLoading" >
+        <div class="h-5/6 w-screen p-4">
+            <div class="mx-10">
+                <div class="p-4 mb-4">
+                    <h1 class="text-red-900 text-5xl text-center font-bold">Customers List</h1>
+                </div>
+                <div *ngIf="searchFormGroup" class="mb-6">
+                    <div class="flex-1 flex justify-center px-2">
+                        <div class="max-w-lg w-full lg:max-w-xs">
+                          <label for="search" class="sr-only">Search </label>
+                          <form methode="get" action="#" class="relative z-50 flex" [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
+                            <button type="submit" id="searchsubmit" class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <svg class="h-5 w-5 text-red-900" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                              </svg>
+                            </button>
+                            <input type="text" formControlName="keyword" class="block w-full pl-10 pr-3 py-2 border border-transparent rounded-l-md leading-5 bg-red-200 text-red-900 placeholder-red-900 focus:outline-none focus:bg-white focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out" placeholder="Search">
+                            <input type="submit" value="search" class="block w-1/3 px-3 py-2 font-semibold bg-red-500 text-white rounded-r-md text-center active:bg-red-200 active:text-red-500">
+                        </form>
+                        </div>
+                      </div>
+    
+    
+                </div>
+                <div class="bg-red-400 w-full py-5 px-4 rounded-lg flex justify-around text-white">
+                                <span>Id</span>
+                                <span>name</span>
+                                <span>email</span>
+                                <span>accounts</span>
+                            </div>
+                <div class="w-full h-[80%] relative overflow-x-auto rounded-md no-scrollbar" >
+                    <table class="w-full">
+                        <tbody>
+                            <tr *ngFor="let c of customers | async" class="bg-white w-full py-5 px-4 rounded-lg flex justify-around text-red-700 my-2">
+                                <td>{{c.id}}</td>
+                                <td>{{c.name}}</td>
+                                <td>{{c.email}}</td>
+
+                                <td (click)="deleteCustomer(c)"><button>
+                                    delete
+                                </button> </td>
+                                <td (click)="getAccounts(c)"><button>
+                                    accounts
+                                </button> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #failureOrLoading>
+        <ng-container *ngIf="errorMessage ;else loading">
+            <div class="bg-red-400 w-96 py-3 rounded-md text-center h-fit mt-10">
+                {{errorMessage}}
+            </div>
+        </ng-container>
+        <ng-template #loading>
+            <div class="bg-red-400 w-96 py-3 rounded-md text-center h-fit mt-10">
+                Loading ...
+            </div>
+        </ng-template>
+    </ng-template>
+    
